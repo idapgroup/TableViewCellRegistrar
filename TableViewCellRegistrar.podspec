@@ -1,6 +1,7 @@
 Pod::Spec.new do |s|
   s.name      = "TableViewCellRegistrar"
   s.version   = "1.0.0"
+  s.swift_version = "4.0"
   s.summary   = "UITableView extension which allows you to register table cells using their class names as an identifier"
   s.description  = "This is simple UITableView extension which allow reducing problems associated with the identification of table cells"
   s.homepage  = "https://github.com/idapgroup/TableViewCellRegistrar"
