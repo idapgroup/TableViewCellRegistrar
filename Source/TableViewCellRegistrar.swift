@@ -27,6 +27,19 @@ extension UITableView {
         return value
     }
     
+    @discardableResult
+    public func dequeueReusableHeaderFooterView<Result>(withHeaderFooterClass headerFooterClass: Result.Type) -> Result
+        where Result: UITableViewHeaderFooterView
+    {
+        let cell = self.dequeueReusableHeaderFooterView(withIdentifier: toString(headerFooterClass))
+        
+        guard let value = cell as? Result else {
+            fatalError("Can't find identifier")
+        }
+        
+        return value
+    }
+    
     func register(cells: Set<String>, cls: Array<AnyClass>) {
         zip(cells, cls).forEach { type in
             self.register(cell: type.0, cls: type.1)
@@ -49,28 +62,19 @@ extension UITableView {
         self.register(nib, forCellReuseIdentifier: cell)
     }
     
-    func register(headerFooters: [String]) {
+    public func register(headerFooters: [AnyClass]) {
         headerFooters.forEach { type in
-            self.register(headerFooter:type)
+            self.register(headerFooterClass: type)
         }
     }
     
-    func register(headerFooter: String) {
-        let nib = UINib.init(nibName: headerFooter, bundle: nil)
-        self.register(nib, forHeaderFooterViewReuseIdentifier: headerFooter)
-    }
-    
-    func register(headerFooterClass: AnyClass) {
-        self.register(headerFooter: toString(headerFooterClass))
+    public func register(headerFooterClass: AnyClass) {
+        self.register(headerFooterClass.self, forHeaderFooterViewReuseIdentifier: toString(headerFooterClass))
     }
     
     func register(_ cellClass: AnyClass) {
         let nib = UINib(nibName: toString(cellClass), bundle: nil)
         self.register(nib, forCellReuseIdentifier: toString(cellClass))
-    }
-    
-    public func hasRowAtIndexPath(_ indexPath: IndexPath) -> Bool {
-        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
     }
 }
 

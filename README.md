@@ -1,5 +1,7 @@
 # TableViewCellRegistrar
 
+## UITableViewCells registration and dequeuing
+
 This is simple UITableView extension which allows you to register table cells using their class names as an identifier.
 
 So instead of writing
@@ -14,6 +16,34 @@ or
 ```
 self.tableView?.register(cells: YourTableViewCell.self, YourSecondTableViewCell.self)
 ```
+
+To get cell by this identifier you write:
+```
+self.tableView?.dequeueReusableCell(withCellClass: YourTableViewCell.self, for: indexPath)
+```
+
+## UITableViewHeaderFooterViews registration and dequeuing
+
+This extension also allows you using the same principle to register headers and footers for table sections.
+
+Instead of writing
+```
+self.tableView?.register(YourHeaderFooterClass.self, forHeaderFooterViewReuseIdentifier: "Your Identifier")
+```
+you write
+```
+self.tableView?.register(headerFooterClass: YourHeaderFooterClass.self)
+```
+or
+```
+self.tableView?.register(headerFooters: [YourHeaderFooterClass.self, YourSecondHeaderFooterClass.self])
+```
+
+To get header/footer by this identifier you write:
+```
+self.rootView?.tableView.dequeueReusableHeaderFooterView(withHeaderFooterClass: YourHeaderFooterClass.self)
+```
+
 ## Requirements
 
 iOS 9+. Swift 3.0.
